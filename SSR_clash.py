@@ -153,7 +153,6 @@ def getClash(nodes):  #写文件
 
 
 if __name__ == "__main__":
-    #url = ""         #替换订阅
-    url = ""
+    url = ""         #替换订阅
     nodes = getAllNodes(url)
     getClash(nodes)
