@@ -1,3 +1,6 @@
+感谢：
+ToClash 项目 Clash Bing 神机规则
+
 功能：
 支持直接通过ssR订阅生成clash配置文件
 
