@@ -8,9 +8,7 @@ ToClash 项目 Clash Bing 神机规则
 
 
 使用1：
-1.下载SSR_clash.py脚本，替换脚本内的订阅链接，运行即可（STC、Timo测试可用），所有节点在一个分组
-使用2：
-2.修改SSR_clash.py脚本 setPG下自定义的节点匹配规则，节点分组
+1.下载SSR_clash.py脚本，替换脚本内的订阅链接，运行即可（STC、Timo测试可用），所有节点在一个分组。                                                  2.修改SSR_clash.py脚本 setPG下自定义的节点匹配规则，节点分组
 
 
 
