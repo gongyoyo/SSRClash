@@ -67,7 +67,7 @@ def getNodeR(link):  # 从ssr链接中得到节点信息
     obfsparam = getName(info.split('&')[0].split('=')[-1])
     proparam = getName(info.split('&')[1].split('=')[1])
     node = [remark, server, port, method, pwd, protocol, obfs, proparam,obfsparam]
-    print (node)
+    print (node[0])
     return node
 
 
@@ -117,20 +117,56 @@ def setNodes(nodes):  # 设置SSR节点
 
 
 def setPG(nodes):  # 设置策略组 auto,Fallback-auto,Proxy
+     
+    ##自定义
+    proxy_namesHK = []
+    proxy_namesUSA = []
+    proxy_namesSHen = []
+    proxy_namesHu = []
+    proxy_namesHang = []
+    proxy_namesJing = []
     proxy_names = []
-    for node in nodes:
-        proxy_names.append(node[0])
-    #auto = "- { name: \'auto\', type: url-test, proxies: " + str( proxy_names) + ", url: 'http://www.gstatic.com/generate_204', interval: 300 }\n"
+    for node in nodes: 
+        if  '香港 'in str(node[0]):
+            proxy_namesHK.append(node[0])
+        elif '美国 ' in str(node[0]) or '狮城 ' in str(node[0]):
+            proxy_namesUSA.append(node[0])
+        elif '深'in str(node[0]):
+            proxy_namesSHen.append(node[0])
+        elif '沪'in str(node[0]):
+            proxy_namesHu.append(node[0])
+        elif '杭'in str(node[0]):
+            proxy_namesHang.append(node[0])
+        elif '京'in str(node[0]):
+            proxy_namesJing.append(node[0])
+        else:
+            proxy_names.append(node[0])
+      ##自定义
 
+    #auto = "- { name: \'auto\', type: url-test, proxies: " + str( proxy_names) + ", url: 'http://www.gstatic.com/generate_204', interval: 300 }\n"
     #Fallback = "- { name: 'Fallback-auto', type: fallback, proxies: " + str(proxy_names) + ", url: 'http://www.gstatic.com/generate_204', interval: 300 }\n"
-        
-    Proxy = "- { name: 'PROXY', type: select, proxies: " + str(proxy_names) + " }\n"
+
+    
+    
+    
+    ##自定义
+    HK = "- { name: '香港直连', type: select, proxies: " + str(proxy_namesHK) + " }\n"
+    USA = "- { name: '美国直连', type: select, proxies: " + str(proxy_namesUSA) + " }\n"
+    Shen = "- { name: '深圳中转', type: select, proxies: " + str(proxy_namesSHen) + " }\n"
+    Shang = "- { name: '上海中转', type: select, proxies: " + str(proxy_namesHu) + " }\n"
+    Hang = "- { name: '杭州中转', type: select, proxies: " + str(proxy_namesHang) + " }\n"
+    BeiJing = "- { name: '北京中转', type: select, proxies: " + str(proxy_namesJing) + " }\n"
+    Others = "- { name: '其他', type: select, proxies: " + str(proxy_names) + " }\n"       
+    Proxy = "- { name: 'PROXY', type: select, proxies: " + " [\"香港直连\",\"美国直连\",\"深圳中转\",\"上海中转\",\"杭州中转\",\"北京中转\",\"其他\",\"DIRECT\"] }" + "\n"
+    ##自定义
+    
+    
     Apple = "- { name: 'Apple', type: select, proxies: "+" [\"PROXY\",\"DIRECT\"] }" +"\n"
     GlobalMedia = "- { name: 'ForeignMedia', type: select, proxies: "+" [\"PROXY\"] }" +"\n"
     MainlandMedia = "- { name: 'DomesticMedia', type: select, proxies: "+" [\"DIRECT\"] }" +"\n"
     RejectWeb =  "- { name: 'Hijacking', type: select, proxies: "+" [\"REJECT\",\"DIRECT\"] }" +"\n"+"\n"+"\n"+"\n"+"\n"
     Rule = "#规则"+"\n"+"Rule:"+"\n"
-    ProxyGroup = ['\nProxy Group:\n',Proxy,Apple,GlobalMedia,MainlandMedia,RejectWeb,Rule]
+    ProxyGroup = ['\nProxy Group:\n',HK,USA,Shen,Shang,Hang,BeiJing,Others,Proxy,Apple,GlobalMedia,MainlandMedia,RejectWeb,Rule]
     return ProxyGroup
 
 
@@ -153,6 +189,6 @@ def getClash(nodes):  #写文件
 
 
 if __name__ == "__main__":
-    url = ""         #替换订阅
+    url = ""         #替换订阅，在自定义下替换自己机场的节点标识
     nodes = getAllNodes(url)
     getClash(nodes)
