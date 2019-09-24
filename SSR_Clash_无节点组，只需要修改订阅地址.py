@@ -128,9 +128,10 @@ def setPG(nodes):  # 设置策略组 auto,Fallback-auto,Proxy
     Apple = "- { name: 'Apple', type: select, proxies: "+" [\"PROXY\",\"DIRECT\"] }" +"\n"
     GlobalMedia = "- { name: 'ForeignMedia', type: select, proxies: "+" [\"PROXY\"] }" +"\n"
     MainlandMedia = "- { name: 'DomesticMedia', type: select, proxies: "+" [\"DIRECT\"] }" +"\n"
-    RejectWeb =  "- { name: 'Hijacking', type: select, proxies: "+" [\"REJECT\",\"DIRECT\"] }" +"\n"+"\n"+"\n"+"\n"+"\n"
+    RejectWeb =  "- { name: 'Hijacking', type: select, proxies: "+" [\"REJECT\",\"DIRECT\"] }"+"\n"
+    Final = "- { name: 'Final', type: select, proxies: "+ " [\"PROXY\",\"DIRECT\",\"REJECT\"] }\n" +"\n"+"\n"+"\n"+"\n"+"\n"  
     Rule = "#规则"+"\n"+"Rule:"+"\n"
-    ProxyGroup = ['\nProxy Group:\n',Proxy,Apple,GlobalMedia,MainlandMedia,RejectWeb,Rule]
+    ProxyGroup = ['\nProxy Group:\n',Proxy,Apple,GlobalMedia,MainlandMedia,RejectWeb,Final,Rule]
     return ProxyGroup
 
 
@@ -139,20 +140,19 @@ def getClash(nodes):  #写文件
     rules = getBasefile(
         'https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/Pro.yaml')
     gener = rules.split('# 代理节点')[0]
-    with codecs.open("./clash.yaml", "w",encoding = 'utf-8') as f:
+    with codecs.open("./config.yaml", "w",encoding = 'utf-8') as f:
         f.writelines(gener)
 
     info = setNodes(nodes) + setPG(nodes)
-    with codecs.open("./clash.yaml", "a",encoding = 'utf-8') as f:
+    with codecs.open("./config.yaml", "a",encoding = 'utf-8') as f:
         f.writelines(info)
 
-    rule = rules.split('Rule:\n')[1].split('- MATCH,Final')[0]
-    with codecs.open("./clash.yaml", "a",encoding = 'utf-8') as f:
+    rule = rules.split('Rule:\n')[1]
+    with codecs.open("./config.yaml", "a",encoding = 'utf-8') as f:
         f.writelines(rule)
-        f.writelines('- MATCH,PROXY')
 
 
 if __name__ == "__main__":
-    url = ""         #替换订阅
+    url = " "         #替换订阅
     nodes = getAllNodes(url)
     getClash(nodes)
